@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ../MxRep-Backend
+      context: ../backend
       dockerfile: Dockerfile
     container_name: mxrep-backend
     restart: unless-stopped
@@ -14,8 +14,8 @@ services:
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_USER=${GmailUser}
+      - EMAIL_PASSWORD=${GmailPassword}
     expose:
       - "3000"
     networks:
@@ -23,7 +23,7 @@ services:
 
   frontend:
     build:
-      context: ../TecBooks_V2
+      context: ../frontend
       dockerfile: Dockerfile
       args:
         - VITE_API_BASE_URL=${VITE_API_BASE_URL}
