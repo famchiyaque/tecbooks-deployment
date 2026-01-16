@@ -27,7 +27,6 @@ echo "Requesting SSL certificates..."
 echo "Note: If this fails, DNS might not be propagated yet. Wait and try again."
 sudo certbot certonly --standalone \
     -d $DOMAIN \
-    -d www.$DOMAIN \
     --non-interactive \
     --agree-tos \
     --email $EMAIL \
