@@ -1,0 +1,65 @@
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.dev
+    container_name: mxrep-backend-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+    volumes:
+      - ../backend:/app
+      - /app/node_modules
+    expose:
+      - "3000"
+    networks:
+      - tecbooks-network
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.dev
+    container_name: tecbooks-frontend-dev
+    restart: unless-stopped
+    environment:
+      - VITE_API_BASE_URL=https://dev.tecbooks.org/api
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    expose:
+      - "5173"
+    networks:
+      - tecbooks-network
+    depends_on:
+      - backend
+    command: npm run dev -- --host
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy-dev
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - tecbooks-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  tecbooks-network:
+    driver: bridge
