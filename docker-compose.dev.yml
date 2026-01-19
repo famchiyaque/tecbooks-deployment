@@ -33,7 +33,7 @@ services:
     volumes:
       - ../frontend:/app
     expose:
-      - "5173"
+      - "8322"
     networks:
       - tecbooks-network
     depends_on:
