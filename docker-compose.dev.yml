@@ -1,10 +1,9 @@
 services:
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile.dev
+    image: node:20-alpine
     container_name: mxrep-backend-dev
     restart: unless-stopped
+    working_dir: /app
     environment:
       - NODE_ENV=development
       - PORT=3000
@@ -14,22 +13,21 @@ services:
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_USER=${GmailUser}
-      - EMAIL_PASSWORD=${GmailPassword}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
     volumes:
       - ../backend:/app
     expose:
       - "3000"
     networks:
       - tecbooks-network
-    command: npm run dev
+    command: sh -c "npm install && npm run dev"
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile.dev
+    image: node:20-alpine
     container_name: tecbooks-frontend-dev
     restart: unless-stopped
+    working_dir: /app
     environment:
       - VITE_API_BASE_URL=https://dev.tecbooks.org/api
     volumes:
@@ -40,7 +38,7 @@ services:
       - tecbooks-network
     depends_on:
       - backend
-    command: npm run dev -- --host
+    command: sh -c "npm install && npm run dev -- --host"
 
   nginx:
     image: nginx:alpine
