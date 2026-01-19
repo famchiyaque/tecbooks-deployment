@@ -1,0 +1,15 @@
+[Unit]
+Description=GitHub Webhook Server for TecBooks Dev Deployment
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/tecbooks/deployment
+Environment="WEBHOOK_SECRET=your-webhook-secret-here"
+ExecStart=/usr/bin/node /home/ubuntu/tecbooks/deployment/scripts/webhook-server.js
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

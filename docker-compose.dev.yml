@@ -13,8 +13,8 @@ services:
       - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_USER=${GmailUser}
+      - EMAIL_PASSWORD=${GmailPassword}
     volumes:
       - ../backend:/app
     expose:
