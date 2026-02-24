@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     working_dir: /app
     environment:
-      - VITE_API_BASE_URL=https://dev.tecbooks.org/api
+      - VITE_API_BASE_URL=https://dev.tecbooks.org/api/tecbooks
     volumes:
       - ../frontend:/app
     expose:

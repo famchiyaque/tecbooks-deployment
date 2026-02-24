@@ -16,6 +16,20 @@ The services included in the docker container:
 - **Nginx**: Reverse proxy for routing and SSL termination
 - **Database**: MongoDB Atlas (cloud-hosted, not in container)
 
+# SSH Commands
+
+## Into dev machine
+
+```bash
+ssh -i ssh-dev-key.key ubuntu@159.54.141.156
+```
+
+## Into prod machine
+
+```bash
+ssh -i ssh-prod-key.key ubuntu@159.54.158.86
+```
+
 # Setup Instructions
 
 ## Production Setup
