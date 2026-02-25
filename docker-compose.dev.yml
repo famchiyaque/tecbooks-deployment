@@ -40,12 +40,25 @@ services:
       - backend
     command: sh -c "npm install && npm run dev -- --host"
 
+  reit-app:
+    image: node:20-alpine
+    container_name: reit-app-dev
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ../reit:/app
+    expose:
+      - "4000"
+    networks:
+      - tecbooks-network
+    command: sh -c "npm install && npm start"
+
   nginx:
     image: nginx:alpine
     container_name: nginx-proxy-dev
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "80:80"
       - "443:443"
@@ -57,6 +70,7 @@ services:
     depends_on:
       - backend
       - frontend
+      - reit-app
 
 networks:
   tecbooks-network:
